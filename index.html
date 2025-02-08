@@ -167,30 +167,30 @@
                         <!-- To make this form functional, sign up at-->
                         <!-- https://startbootstrap.com/solution/contact-forms-->
                         <!-- to get an API token!-->
-                        <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                        <form id="contactForm" class="container m-4 pl-4" method="POST">
                             <!-- Name input-->
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="name" type="text" placeholder="Masukan nama lengkap anda..." data-sb-validations="required" />
+                                <input class="form-control" name="Nama Lengkap" id="name" type="text" placeholder="Masukan nama lengkap anda..." data-sb-validations="required" />
                                 <label for="name">Nama Lengkap</label>
                                 <div class="invalid-feedback" data-sb-feedback="name:required">Nama lengkap harus di isi.</div>
                             </div>
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="name" type="text" placeholder="Masukan alamat lengkap anda..." data-sb-validations="required" />
+                                <input class="form-control" name="Alamat Lengkap" id="name" type="text" placeholder="Masukan alamat lengkap anda..." data-sb-validations="required" />
                                 <label for="name">Alamat Lengkap</label>
                                 <div class="invalid-feedback" data-sb-feedback="name:required">Alamat lengkap harus di isi.</div>
                             </div>
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="name" type="text" placeholder="Masukan pekerjaan anda..." data-sb-validations="required" />
+                                <input class="form-control" name="Pekerjaan" id="name" type="text" placeholder="Masukan pekerjaan anda..." data-sb-validations="required" />
                                 <label for="name">Pekerjaan</label>
                                 <div class="invalid-feedback" data-sb-feedback="name:required">Pekerjaan di isi.</div>
                             </div>
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="name" type="text" placeholder="Masukan jenis kelamin anda..." data-sb-validations="required" />
+                                <input class="form-control" name="Jenis Kelamin" id="name" type="text" placeholder="Masukan jenis kelamin anda..." data-sb-validations="required" />
                                 <label for="name">Jenis Kelamin</label>
                                 <div class="invalid-feedback" data-sb-feedback="name:required">Jenis Kelamin di isi.</div>
                             </div>
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="name" type="text" placeholder="Masukan No HP anda..." data-sb-validations="required" />
+                                <input class="form-control" name="No HP." id="name" type="text" placeholder="Masukan No HP anda..." data-sb-validations="required" />
                                 <label for="name">No HP.</label>
                                 <div class="invalid-feedback" data-sb-feedback="name:required">No HP harus di isi.</div>
                             </div>
@@ -231,7 +231,7 @@
                             <!-- an error submitting the form-->
                             <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
                             <!-- Submit Button-->
-                            <button class="btn btn-primary btn-xl disabled" id="submitButton" type="submit">Send</button>
+                            <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Send</button>
                         </form>
                     </div>
                 </div>
@@ -476,5 +476,46 @@
         <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        <script>
+            document.getElementById("contactForm").addEventListener("submit", function (e) {
+              e.preventDefault(); // Prevent the default form submission
+      
+              // Collect the form data
+              var formData = new FormData(this);
+              var keyValuePairs = [];
+              for (var pair of formData.entries()) {
+                keyValuePairs.push(pair[0] + "=" + pair[1]);
+              }
+      
+              var formDataString = keyValuePairs.join("&");
+      
+              // Send a POST request to your Google Apps Script
+              fetch(
+                "https://script.google.com/macros/s/AKfycbyXKZL1vx0M3az3x2TpFs4pKYgzXILHkeNwhWFs0wg-yr5HRPx6lDFuRUhyM1mjlqqq/exec",
+                {
+                  redirect: "follow",
+                  method: "POST",
+                  body: formDataString,
+                  headers: {
+                    "Content-Type": "text/plain;charset=utf-8",
+                  },
+                }
+              )
+                .then(function (response) {
+                  // Check if the request was successful
+                  if (response) {
+                    return response; // Assuming your script returns JSON response
+                  } else {
+                    throw new Error("Failed to submit the form.");
+                  }
+                })
+                .then(function (data) {
+                    alert("sukses")
+                })
+                .catch(function (error) {
+                    alert("gagal")
+                });
+            });
+        </script>
     </body>
 </html>
